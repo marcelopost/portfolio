@@ -1,0 +1,236 @@
+/* ============================================================
+   TOUR — estilos da camada de tour guiado (Driver.js)
+   Reaproveita os tokens da LP (:root do style.css): --bg, --surface,
+   --accent, --radius, etc. Objetivo: o tour parecer parte nativa da
+   página, não um plugin genérico. Nada aqui altera a LP existente —
+   é só a camada do tour.
+   ============================================================ */
+
+/* ---------- Botão flutuante que abre o tour ---------- */
+.tour-fab {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 9990;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 13px 18px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-text-on);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.45), 0 0 0 0 rgba(232, 166, 60, 0.5);
+  animation: tour-fab-pulse 2.6s ease-in-out infinite;
+  transition: transform 0.15s ease;
+}
+.tour-fab:hover { transform: translateY(-2px); }
+.tour-fab:active { transform: translateY(0); }
+.tour-fab__icon { width: 18px; height: 18px; flex-shrink: 0; }
+
+@keyframes tour-fab-pulse {
+  0%, 100% { box-shadow: 0 8px 26px rgba(0,0,0,0.45), 0 0 0 0 rgba(232,166,60,0.45); }
+  50%      { box-shadow: 0 8px 26px rgba(0,0,0,0.45), 0 0 0 10px rgba(232,166,60,0); }
+}
+
+/* ---------- Modal de boas-vindas (abertura do tour) ---------- */
+.tour-welcome-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(10, 11, 13, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.tour-welcome-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.tour-welcome {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 30px 26px 26px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.6);
+  transform: translateY(12px) scale(0.98);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: var(--font-body);
+}
+.tour-welcome-overlay.is-open .tour-welcome {
+  transform: translateY(0) scale(1);
+}
+
+.tour-welcome__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.tour-welcome__close:hover { background: var(--border); color: var(--text); }
+.tour-welcome__close svg { width: 16px; height: 16px; }
+
+.tour-welcome__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(232, 166, 60, 0.12);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 14px;
+}
+.tour-welcome__badge svg { width: 15px; height: 15px; }
+
+.tour-welcome__title {
+  font-family: var(--font-body);
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--text);
+  margin: 0 0 10px;
+}
+.tour-welcome__title .accent { color: var(--accent); }
+
+.tour-welcome__text {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--text-dim);
+  margin: 0 0 22px;
+}
+
+.tour-welcome__actions {
+  display: flex;
+  gap: 10px;
+}
+.tour-welcome__btn {
+  flex: 1;
+  padding: 13px 16px;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform 0.14s ease, background 0.14s ease, border-color 0.14s ease;
+}
+.tour-welcome__btn:active { transform: translateY(1px); }
+.tour-welcome__btn--ghost {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text-dim);
+}
+.tour-welcome__btn--ghost:hover { border-color: var(--text-dimmer); color: var(--text); }
+.tour-welcome__btn--primary {
+  background: var(--accent);
+  color: var(--accent-text-on);
+}
+.tour-welcome__btn--primary:hover { background: var(--accent-strong); }
+
+/* ---------- Popover do Driver.js — tema Aera Pro ---------- */
+.driver-popover.aera-tour {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+  font-family: var(--font-body);
+  max-width: 320px;
+}
+.driver-popover.aera-tour .driver-popover-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+}
+.driver-popover.aera-tour .driver-popover-description {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+/* Tag de bloco do diagnóstico dentro do popover */
+.aera-tour__tag {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(232, 166, 60, 0.12);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 8px;
+}
+/* Botões de navegação */
+.driver-popover.aera-tour .driver-popover-footer button {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 13px;
+  text-shadow: none;
+  border-radius: 10px;
+  padding: 8px 14px;
+  transition: background 0.14s ease;
+}
+.driver-popover.aera-tour .driver-popover-prev-btn {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+}
+.driver-popover.aera-tour .driver-popover-prev-btn:hover { color: var(--text); }
+.driver-popover.aera-tour .driver-popover-next-btn,
+.driver-popover.aera-tour .driver-popover-close-btn {
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  color: var(--accent-text-on);
+}
+.driver-popover.aera-tour .driver-popover-next-btn:hover { background: var(--accent-strong); }
+.driver-popover.aera-tour .driver-popover-progress-text {
+  font-size: 11.5px;
+  color: var(--text-dimmer);
+}
+/* Cor da seta do popover para casar com o fundo */
+.driver-popover.aera-tour .driver-popover-arrow-side-left.driver-popover-arrow { border-left-color: var(--surface); }
+.driver-popover.aera-tour .driver-popover-arrow-side-right.driver-popover-arrow { border-right-color: var(--surface); }
+.driver-popover.aera-tour .driver-popover-arrow-side-top.driver-popover-arrow { border-top-color: var(--surface); }
+.driver-popover.aera-tour .driver-popover-arrow-side-bottom.driver-popover-arrow { border-bottom-color: var(--surface); }
+
+/* Respeita preferência de menos movimento */
+@media (prefers-reduced-motion: reduce) {
+  .tour-fab { animation: none; }
+  .tour-welcome, .tour-welcome-overlay { transition: none; }
+}
+
+/* Mobile: FAB um pouco acima do sticky CTA para não sobrepor */
+@media (max-width: 767px) {
+  .tour-fab {
+    bottom: 82px;
+    right: 14px;
+    padding: 11px 15px;
+    font-size: 13px;
+  }
+}
