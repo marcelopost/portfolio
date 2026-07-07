@@ -1,0 +1,9 @@
+{
+  "name": "marcelopost-site",
+  "version": "2.0.0",
+  "description": "Marcelo Post — Webdesigner · Conversão para Nuvemshop",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  }
+}
